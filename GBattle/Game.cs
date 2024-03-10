@@ -122,37 +122,41 @@ namespace GBattle
             }
         }
 
-        public void run() 
+        private void StartingCom() 
         {
             Console.Write("La bataille va commencer, les augures");
             if (prediction == Affiliation.Empire)
             {
                 Console.WriteLine(" sont en faveur de l'empire !");
             }
-            else if (prediction == Affiliation.Rebelle) 
+            else if (prediction == Affiliation.Rebelle)
             {
                 Console.WriteLine(" sont en faveur des rebelles !");
             }
-            else 
+            else
             {
                 Console.WriteLine(" ne favorisent personnes la bataille sera serrée !");
             }
-            Console.WriteLine("Pour une bataille de "+nbrTurn+" tours.");
+            Console.WriteLine("Pour une bataille de " + nbrTurn + " tours.");
             Console.WriteLine();
 
             Console.WriteLine(EmpireArmy.HeroAnnouncement());
             Console.WriteLine(RebelleArmy.HeroAnnouncement());
             Console.WriteLine();
+        }
+
+        public void run() 
+        {
+            StartingCom();
 
             int tour = 1;
 
             while (RebelleArmy.Undefeated() & EmpireArmy.Undefeated()) 
             {
-                Console.WriteLine("Tour " + tour + " ::");
+                Console.WriteLine("Tour " + tour++ + " ::");
                 Soldier attacker = ChooseAttacker();
                 Console.WriteLine(Attack(attacker));
                 Console.WriteLine();
-                tour++;
             }
 
             EndingCom();
