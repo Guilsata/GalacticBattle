@@ -1,0 +1,10 @@
+﻿################################################################################
+# Ce fichier .gitignore a été automatiquement créé par Microsoft(R) Visual Studio.
+################################################################################
+
+/GBattle/.vs
+/.vs
+/GBattle/bin/Debug/net8.0
+/GBattle/obj
+/GBattle/GBattle.sln
+/GBattle/Properties
