@@ -39,12 +39,12 @@ namespace GBattle.GameObjects
 
         public double DamageAverageByTurn() 
         {
-            return Battalion.Sum(e => e.Damage)/(Battalion.Count*2);
+            return Battalion.Sum(e => (double)e.Damage)/(Battalion.Count*2);
         }
 
-        public int SumHp() 
+        public long SumHp() 
         {
-            return Battalion.Sum(e => e.HitPoints);
+            return Battalion.Sum(e => (long)e.HitPoints);
         }
 
         private void RemoveTheDead(Soldier deadSoldier) 

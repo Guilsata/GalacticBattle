@@ -58,12 +58,12 @@ namespace GBattle.Factory
 
         private static string InitEmpireName()
         {
-            if (_matricule > 999999)
+            if (_matricule > 99999)
             {
                 _generation = (char)(_generation + 1);
                 _matricule = 0;
             }
-            return _generation.ToString() + _matricule++.ToString("D6");
+            return _generation.ToString() + _matricule++.ToString("D5");
         }
     }
 }

@@ -20,6 +20,8 @@ namespace GBattle
 
         private Affiliation? prediction;
 
+        private long nbrTurn;
+
         public Game(int sizeArmyRebelle, int sizeArmyEmpire) 
         {
             ArmyFactory.InitArmy(Affiliation.Rebelle, out RebelleArmy, sizeArmyRebelle);
@@ -29,20 +31,21 @@ namespace GBattle
 
         /// <summary>
         /// Calcule de prédiction :
-        /// le but ici est de calculé des scores qui représente une valeur moyen du nombre de tour nécessaire à une armée
+        /// le but ici est de calculé des scores qui représente une valeur moyenne du nombre de tour nécessaire à une armée
         /// de supprimer tous les soldats d'une autre. Plus ce score est bas mieux c'est.
         /// le calcule est réalisé comme suit :
         /// le total des HitPoints de l'armée (A) sont divisés par la moyenne des dégâts par tour de l'armée (B)
-        /// modulé par le pourcentage de soldat appartenant à l'armée (B) du total des soldats des deux armées
+        /// modulé par le pourcentage de soldat appartenant à l'armée (B) du total des soldats des deux armées.
+        /// A noté que plus les forces sont équivalentes plus la prédiction à de chances d'être fausse.
         /// </summary>
         /// <returns>si le retour est null c'est qu'il y a égalité</returns>
         private Affiliation? Prediction() 
         {
             double scoreEmpire = (RebelleArmy.SumHp() * Both.Count) / (EmpireArmy.DamageAverageByTurn() * EmpireArmy.Battalion.Count);
             double scoreRebelle = (EmpireArmy.SumHp() * Both.Count) / (RebelleArmy.DamageAverageByTurn() * RebelleArmy.Battalion.Count);
-            if (scoreEmpire < scoreRebelle) { return Affiliation.Empire; }
-            else if (scoreRebelle < scoreEmpire) { return Affiliation.Rebelle; } 
-            else { return null; }
+            if (scoreEmpire < scoreRebelle) { nbrTurn = (long)scoreEmpire; return Affiliation.Empire; }
+            else if (scoreRebelle < scoreEmpire) { nbrTurn = (long)scoreRebelle; return Affiliation.Rebelle; } 
+            else { nbrTurn = 0; return null; }
         }
 
         private Soldier ChooseAttacker() 
@@ -83,7 +86,7 @@ namespace GBattle
 
         private void EndingCom() 
         {
-            Console.WriteLine("Rappel de la prédiction : " + (prediction != null ? prediction.ToString() : " force égale."));
+            Console.WriteLine("Rappel de la prédiction : " + (prediction != null ? prediction.ToString() : " force égale.")+"\nNombre de tours prédis : " + nbrTurn);
             if (prediction == Affiliation.Empire)
             {
 
@@ -134,6 +137,7 @@ namespace GBattle
             {
                 Console.WriteLine(" ne favorisent personnes la bataille sera serrée !");
             }
+            Console.WriteLine("Pour une bataille de "+nbrTurn+" tours.");
             Console.WriteLine();
 
             Console.WriteLine(EmpireArmy.HeroAnnouncement());
